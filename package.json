@@ -1,0 +1,25 @@
+{
+  "name": "@skynar/core",
+  "version": "1.0.0",
+  "description": "Core of MVC aplication using TypeScript and based in Angular arch",
+  "main": "dist/index.js",
+  "types": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theskynar/skynar-core.git"
+  },
+  "scripts": {
+    "build": "tsc -w"
+  },
+  "author": "Matheus Bordin",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "inversify": "^4.5.0",
+    "reflect-metadata": "^0.1.10"
+  },
+  "devDependencies": {
+    "@types/express": "^4.0.39",
+    "@types/node": "^8.0.47"
+  }
+}
