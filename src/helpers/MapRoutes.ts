@@ -7,7 +7,7 @@ export function MapRoutes(curr: any, baseRoute: string = ''): IRoute[] {
   curr.prototype._routes = curr.prototype._routes || [];
 
   if(baseRoute.length > 1) {
-    baseRoute = baseRoute.replace(/\/$/g,'') + '/';
+    baseRoute = baseRoute.replace(/\/$/g,'') + (curr.prototype._baseRoute ? '/' : '');
     curr.prototype._baseRoute = curr.prototype._baseRoute.replace(/^\//g,'');
   }
 

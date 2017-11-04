@@ -1,40 +1,26 @@
 import { IServerOptions } from "../types/IServerOptions";
-import { Container, decorate, injectable } from "inversify";
 import * as express from "express";
-import { ISkynarModule } from "../index";
+import { ConfigureApp } from "../helpers/ConfigureApp";
 
 export function Server(options: IServerOptions) {
   return function(target) {
+    if(!options.providers) options.providers = [];
 
     // Create express app
-    let app = express();
-
-    // Resolve Dependency Injection with Inversify
-    let container = new Container();
-
-    if(options.providers)
-    for(let item of options.providers) {
-      decorate(injectable(), item)
-      container.bind(item).toSelf();
-    }
-    
-    if(options.modules.length) {
-      for(let item of options.modules) {
-        let module = new item();
-        let mergedContainer = Container.merge(container, module.container);
-        module.controllers = module.controllers.map(item => mergedContainer.get(item));
-        if(module.beforeInit) module.beforeInit();
-        for(let controller of module.controllers) 
-          for(let route of controller._routes) app[route.method](route.path, controller[route.handler].bind(controller))
-        if(module.afterInit) module.afterInit();
-      }
-    }
+    let app = ConfigureApp.SetConfig(express(), options)
 
     // Save target
     let original = target;
+
     // New constructor
     let server = function(...args) {
+
       new original(...args);
+
+      this.beforeInit(app);
+      ConfigureApp.SetRoutes(app, options);
+      this.afterInit(app);
+      
     }
     // Copy original props to new module
     server.prototype = original.prototype;

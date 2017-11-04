@@ -2,21 +2,21 @@
 
 Skynar is MVC framework using typescript and based in AngularJS decorators. Make efficient NodeJS scalable application ussing OOP and Dependency Injection.
 
-### Technologies
+## Technologies
 
 * Inversify
 * Express
 * TypeScript
 
-### About core module
+## About core module
 
 Core module have a responsibility for create Modules and control the server instance. Basically, core module configure your application and start them with your module options.
 
-### Dccumentation
+## Dccumentation
 
 Here you can find specification of all exported modules by core module.
 
-#### Decorators
+### Decorators
 
 * @Module(options: IModuleOptions)
 
@@ -46,7 +46,7 @@ The server providers is shared, you can access Server providers in all modules o
 class MyServer extends SkynarServer {}
 ```
 
-#### Interfaces
+### Interfaces
 
 * IModuleOptions
 
@@ -58,22 +58,26 @@ baseRoute | string | No
 
 * IServerOptions
 
-Property | Type | Required
----------|------|----------
-providers | Array of shared services (class) | No
-modules | Array of modules (class) | Yes
+Property | Type | Description | Default | Required
+---------|------|-------------|---------|----------
+providers | Array of shared services (class) | You can pass a array of shared providers (all modules can access) | Empty array | No
+modules | Array of modules (class) | Array of modules of your aplications | - | Yes
+parseBody | boolean | If true, the body of requisitions will be parsed for json | True | No
+staticFilesFolder | string | Folder on static files can be loaded | *'/views'* | no
 
 * ISkynarModule
 
 Methods  | Params | Return | Description | Required
 ---------|--------|--------|-------------|----------
-beforeInit | App: express.Express | void | Called before load controllers | No
-afterInit | App: express.Express | void | Called after load controlles | No
+beforeInit | App: Skynar.Application | void | Called before load controllers | No
+afterInit | App: Skynar.Application | void | Called after load controlles | No
 
-#### Classes
+### Classes
 
 * SkynarServer
 
-Methods  | Params | Return | Description
+Methods  | Params | Return | Description 
 ---------|--------|--------|-------------
+beforeInit | App: Skynar.Application | void | Called before load modules
+afterInit | App: Skynar.Application | void | Called after load modules
 boot | port: number = 3000, successCallback?: Function | void | Create server and listen in **port**, on success call callback if exists 
